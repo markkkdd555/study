@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video List</title>
+    <title>Embedded Videos</title>
 </head>
 <body>
-    <h1>List of Videos</h1>
-    <ul id="video-list">
-        <!-- Videos will be dynamically added here -->
-    </ul>
+    <h1>List of Embedded Videos</h1>
+    <div id="video-container">
+        <!-- Videos will be dynamically embedded here -->
+    </div>
 
     <script>
         fetch('video_info.txt')
             .then(response => response.text())
             .then(data => {
-                const videoList = document.getElementById('video-list');
+                const videoContainer = document.getElementById('video-container');
                 const videos = data.split('\n');
                 videos.forEach(video => {
                     const [title, link] = video.split(', ');
-                    const listItem = document.createElement('li');
-                    const linkElement = document.createElement('a');
-                    linkElement.textContent = title.trim();
-                    linkElement.href = link.trim();
-                    linkElement.target = '_blank'; // Open link in a new tab
-                    listItem.appendChild(linkElement);
-                    videoList.appendChild(listItem);
+                    const videoFrame = document.createElement('iframe');
+                    videoFrame.src = link.trim();
+                    videoFrame.width = '560'; // You can adjust the width as needed
+                    videoFrame.height = '315'; // You can adjust the height as needed
+                    videoFrame.allowFullscreen = true; // Enable fullscreen mode
+                    const titleElement = document.createElement('h2');
+                    titleElement.textContent = title.trim();
+                    videoContainer.appendChild(titleElement);
+                    videoContainer.appendChild(videoFrame);
                 });
             })
             .catch(error => console.error('Error fetching video data:', error));
