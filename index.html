@@ -23,6 +23,7 @@
                     const linkElement = document.createElement('a');
                     linkElement.textContent = title.trim();
                     linkElement.href = link.trim();
+                    linkElement.target = '_blank'; // Open link in a new tab
                     listItem.appendChild(linkElement);
                     videoList.appendChild(listItem);
                 });
